@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>主页</title>
-    <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="themes/icon.css">
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5/themes/icon.css">
+    <script type="text/javascript" src="jquery-easyui-1.5/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery-easyui-1.5/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#tt').tree({
-                url: 'common/tree_data.json'
-            });
         })
+
+        function addTab(title, url) {
+            if ($('#index-tabs').tabs('exists', title)) {
+                $('#index-tabs').tabs('select', title);
+            } else {
+                var content = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
+                $('#index-tabs').tabs('add', {
+                    title: title,
+                    content: content,
+                    closable: true
+                });
+            }
+        }
     </script>
 </head>
 <body class="easyui-layout">
@@ -21,45 +31,28 @@
 <div data-options="region:'south',split:true" style="height:50px;"></div>
 <div data-options="region:'west',split:true" title="导航菜单" style="width:150px;">
     <div class="easyui-accordion" data-options="fit:true,border:false">
-        <!--<div title="系统配置" data-options="selected:true" style="padding:10px;">-->
-        <!--<ul>-->
-        <!--<li><a href="#">字典管理</a></li>-->
-        <!--<li><a href="#">权限管理</a></li>-->
-        <!--<li><a href="#">角色管理</a></li>-->
-        <!--<li><a href="#">用户管理</a></li>-->
-        <!--</ul>-->
+        <ul class="easyui-tree">
+            <li>
+                <span>系统配置</span>
+                <ul>
+                    <li><span><a href="#">字典管理</a></span></li>
+                    <li><span><a href="#" onclick="addTab('权限管理','page/dict.html')">权限管理</a></span></li>
+                    <li><span>File 13</span></li>
+                </ul>
+            </li>
+            <li><span>File 2</span></li>
+            <li><span>File 3</span></li>
+            <li><span>File21</span></li>
+        </ul>
         <!--</div>-->
-        <div title="标题二" style="padding:10px;">
-            <ul id="tt"></ul>
-        </div>
-        <div title="标题三" style="padding:10px">
-            <ul id="tt2" class="easyui-tree">
-                <li>
-                    <span>Folder</span>
-                    <ul>
-                        <li>
-                            <span>Sub Folder 1</span>
-                            <ul>
-                                <li><span><a href="#">File 11</a></span></li>
-                                <li><span>File 12</span></li>
-                                <li><span>File 13</span></li>
-                            </ul>
-                        </li>
-                        <li><span>File 2</span></li>
-                        <li><span>File 3</span></li>
-                    </ul>
-                </li>
-                <li><span>File21</span></li>
-            </ul>
-        </div>
     </div>
 </div>
 <div data-options="region:'center',title:'主面板区域',iconCls:'icon-ok'">
-    <div class="easyui-tabs" data-options="fit:true,border:false,plain:true">
-        <div title="关于" data-options="href:'../layout/_content.html'" style="padding:10px"></div>
+    <div id="index-tabs" class="easyui-tabs" data-options="fit:true,border:false,plain:true">
+        <div title="关于" data-options="href:'layout/_content.html'" style="padding:10px"></div>
         <div title="数据表格" style="padding:5px">
             <table class="easyui-datagrid"
-                   data-options="url:'../layout/datagrid_data1.json',singleSelect:true,fit:true,fitColumns:true">
+                   data-options="url:'layout/datagrid_data.json',singleSelect:true,fit:true,fitColumns:true">
                 <thead>
                 <tr>
                     <th data-options="field:'itemid'" width="80">编号</th>
